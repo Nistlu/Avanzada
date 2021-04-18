@@ -49,11 +49,11 @@ int posicionPascalR(int i, int j) {
   }
 }
 
-List<int> llenarVectorEnteros([int maxElementos = 10]) {
+List<int> llenarVectorEnteros(int maxElementos) {
   //  Regresa un vector del tamaño de maxElementos con randoms
-  List<int> resul;
+  List<int> resul = List.filled(0, 0, growable: true);
   for (var i = 0; i < maxElementos; i++) {
-    resul.add(Random().nextInt(15) + 1);
+    resul.insert(i, Random().nextInt(15) + 1);
   }
   return resul;
 }
@@ -102,5 +102,32 @@ void bubbleSort(List<int> vector) {
         vector[j + 1] = temp;
       }
     }
+  }
+}
+
+int particionOrdena(List<int> vector, int pivote, int r) {
+  int x = vector[r];
+  int i = pivote - 1;
+  int temp = 0;
+  for (var j = 0; j <= r - 1; j++) {
+    if (vector[j] <= x) {
+      i = i + 1;
+      temp = vector[i];
+      vector[i] = vector[j];
+      vector[j] = temp;
+    }
+  }
+  temp = vector[i + 1];
+  vector[i + 1] = vector[r];
+  vector[r] = temp;
+  return i + 1;
+}
+
+void quickSort(List<int> vector, int p, int r) {
+  int q;
+  if (p < r) {
+    q = particionOrdena(vector, p, r);
+    quickSort(vector, p, q - 1);
+    quickSort(vector, q + 1, r);
   }
 }
